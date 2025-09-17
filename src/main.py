@@ -65,10 +65,10 @@ except FileNotFoundError:
 chat_history = []
 
 # Configuration via environment variables
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gemini-2.5-flash")
-OPENAI_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.7"))
-OPENAI_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "500"))
-CHAT_HISTORY_KEEP = int(os.getenv("CHAT_HISTORY_KEEP", "50"))  # how many exchanges to keep globally
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4")
+OPENAI_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.4"))
+OPENAI_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "1000"))
+CHAT_HISTORY_KEEP = int(os.getenv("CHAT_HISTORY_KEEP", "100"))  # how many exchanges to keep globally
 
 # --- Helper functions ---
 
