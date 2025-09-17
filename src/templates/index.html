@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anna AI Coach - Your Entrepreneurship Mentor</title>
-    <link rel="stylesheet" href="{{ url_for(\'static\', filename=\'style.css\') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -46,8 +46,8 @@
                 <div class="welcome-message">
                     <div class="anna-avatar"></div>
                     <div class="welcome-text">
-                        <h3>Hello! I\'m Anna, your AI entrepreneurship coach.</h3>
-                        <p>I\'m here to help you navigate your entrepreneurial journey. Whether you\'re validating an idea, defining your target audience, or planning your MVP, I\'ll provide guidance and actionable steps.</p>
+                        <h3>Hello! I'm Anna, your AI entrepreneurship coach.</h3>
+                        <p>I'm here to help you navigate your entrepreneurial journey. Whether you're validating an idea, defining your target audience, or planning your MVP, I'll provide guidance and actionable steps.</p>
                         <p><strong>How can I help you today?</strong></p>
                     </div>
                 </div>
@@ -74,45 +74,53 @@
         </div>
     </div>
 
+    <!-- ✅ Add marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script>
-        const chatWindow = document.getElementById(\'chat-window\');
-        const userInput = document.getElementById(\'user-input\');
-        const sendButton = document.getElementById(\'send-button\');
-        const resetButton = document.getElementById(\'reset-button\');
-        const quickSuggestions = document.getElementById(\'quick-suggestions\');
+        const chatWindow = document.getElementById('chat-window');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const resetButton = document.getElementById('reset-button');
+        const quickSuggestions = document.getElementById('quick-suggestions');
 
         function appendMessage(sender, message, isWelcome = false) {
             if (isWelcome) return; // Welcome message is already in HTML
             
-            const messageElement = document.createElement(\'div\');
-            messageElement.classList.add(\'chat-message\', sender);
-            
-            if (sender === \'anna\') {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message', sender);
+
+            // ✅ Render markdown properly
+            const renderedMessage = marked.parse(message);
+
+            // Common block (avoids duplication)
+            const contentHTML = `
+                <div class="message-content">
+                    <div class="message-text">${renderedMessage}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                </div>
+            `;
+
+            if (sender === 'anna') {
                 messageElement.innerHTML = `
                     <div class="message-avatar"></div>
-                    <div class="message-content">
-                        <div class="message-text">${message}</div>
-                        <div class="message-time">${new Date().toLocaleTimeString([], {hour: \'2-digit\', minute:\'2-digit\'})}</div>
-                    </div>
+                    ${contentHTML}
                 `;
             } else {
                 messageElement.innerHTML = `
-                    <div class="message-content">
-                        <div class="message-text">${message}</div>
-                        <div class="message-time">${new Date().toLocaleTimeString([], {hour: \'2-digit\', minute:\'2-digit\'})}</div>
-                    </div>
+                    ${contentHTML}
                     <div class="message-avatar"></div>
                 `;
             }
-            
+
             chatWindow.appendChild(messageElement);
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
         function showTypingIndicator() {
-            const typingElement = document.createElement(\'div\');
-            typingElement.classList.add(\'chat-message\', \'anna\', \'typing\');
-            typingElement.id = \'typing-indicator\';
+            const typingElement = document.createElement('div');
+            typingElement.classList.add('chat-message', 'anna', 'typing');
+            typingElement.id = 'typing-indicator';
             typingElement.innerHTML = `
                 <div class="message-avatar"></div>
                 <div class="message-content">
@@ -128,52 +136,50 @@
         }
 
         function hideTypingIndicator() {
-            const typingElement = document.getElementById(\'typing-indicator\');
+            const typingElement = document.getElementById('typing-indicator');
             if (typingElement) {
                 typingElement.remove();
             }
         }
 
-        sendButton.addEventListener(\'click\', sendMessage);
-        userInput.addEventListener(\'keypress\', function (e) {
-            if (e.key === \'Enter\') {
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
                 sendMessage();
             }
         });
 
-        resetButton.addEventListener(\'click\', function() {
-            if (confirm(\'Are you sure you want to start a new conversation?\')) {
-                fetch(\'/reset\', {
-                    method: \'POST\',
+        resetButton.addEventListener('click', function() {
+            if (confirm('Are you sure you want to start a new conversation?')) {
+                fetch('/reset', {
+                    method: 'POST',
                     headers: {
-                        \'Content-Type\': \'application/json\',
+                        'Content-Type': 'application/json',
                     },
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Clear chat window and show welcome message
                     chatWindow.innerHTML = `
                         <div class="welcome-message">
                             <div class="anna-avatar"></div>
                             <div class="welcome-text">
-                                <h3>Hello! I\'m Anna, your AI entrepreneurship coach.</h3>
-                                <p>I\'m here to help you navigate your entrepreneurial journey. Whether you\'re validating an idea, defining your target audience, or planning your MVP, I\'ll provide guidance and actionable steps.</p>
+                                <h3>Hello! I'm Anna, your AI entrepreneurship coach.</h3>
+                                <p>I'm here to help you navigate your entrepreneurial journey. Whether you're validating an idea, defining your target audience, or planning your MVP, I'll provide guidance and actionable steps.</p>
                                 <p><strong>How can I help you today?</strong></p>
                             </div>
                         </div>
                     `;
-                    quickSuggestions.style.display = \'flex\';
+                    quickSuggestions.style.display = 'flex';
                 })
                 .catch(error => {
-                    console.error(\'Error resetting chat:\', error);
+                    console.error('Error resetting chat:', error);
                 });
             }
         });
 
-        // Quick suggestion buttons
-        document.querySelectorAll(\'.suggestion-btn\').forEach(button => {
-            button.addEventListener(\'click\', function() {
-                const message = this.getAttribute(\'data-message\');
+        document.querySelectorAll('.suggestion-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const message = this.getAttribute('data-message');
                 userInput.value = message;
                 sendMessage();
             });
@@ -181,35 +187,35 @@
 
         function sendMessage() {
             const message = userInput.value.trim();
-            if (message === \'\') return;
+            if (message === '') return;
 
-            // Hide quick suggestions after first message
-            quickSuggestions.style.display = \'none\';
+            quickSuggestions.style.display = 'none';
 
-            appendMessage(\'user\', message);
-            userInput.value = \'\';
+            appendMessage('user', message);
+            userInput.value = '';
             showTypingIndicator();
 
-            fetch(\'/chat\', {
-                method: \'POST\',
+            fetch('/chat', {
+                method: 'POST',
                 headers: {
-                    \'Content-Type\': \'application/json\',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ message: message }),
             })
             .then(response => response.json())
             .then(data => {
                 hideTypingIndicator();
-                appendMessage(\'anna\', data.response);
+                appendMessage('anna', data.response);
             })
             .catch(error => {
                 hideTypingIndicator();
-                console.error(\'Error:\', error);
-                appendMessage(\'anna\', \'Oops! Something went wrong. Please try again. In the meantime, consider reviewing your business plan or researching your target market.\');
+                console.error('Error:', error);
+                appendMessage('anna', 'Oops! Something went wrong. Please try again. In the meantime, consider reviewing your business plan or researching your target market.');
             });
         }
     </script>
 </body>
 </html>
+
 
 
