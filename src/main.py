@@ -3,11 +3,10 @@ src/main.py
 
 Rewritten from the original file. Key improvements:
 - Fixes knowledge base path (reads knowledge_base.md from repo root)
-- Loads environment variables via python-dotenv (if present)
+- Loads environment variables via python-dotenv 
 - Safer OpenAI client setup (reads OPENAI_API_KEY from env)
 - Configurable model/temperature via env vars
 - Better error handling and logging
-- Keeps behavior and endpoints compatible with your original prototype
 """
 
 import os
@@ -39,7 +38,7 @@ else:
     # set openai.api_key for compatibility with different openai client setups
     openai.api_key = OPENAI_API_KEY
 
-# Create OpenAI client (the library you have may support this constructor)
+# Create OpenAI client 
 try:
     client = openai.OpenAI()
 except Exception as e:
@@ -169,7 +168,6 @@ def generate_response(user_message: str, history: list):
                 return getattr(response.choices[0], "text", str(response))
         else:
             # Fallback if client is the openai module (older API)
-            # Try using openai.ChatCompletion.create (legacy)
             if hasattr(openai, "ChatCompletion"):
                 legacy_resp = openai.ChatCompletion.create(
                     model=OPENAI_MODEL,
