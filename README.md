@@ -131,7 +131,16 @@ python app.py
 
 **User**: "How do I validate my business idea?"
 
-**Anna**: "Great question! Idea validation is crucial before investing time and resources. Here are the key steps: First, identify your core assumptions about your idea, target customers, and the problem you're solving. Then, conduct customer interviews with potential users to understand their real needs and pain points. I'm asking about your specific idea because the validation approach can vary depending on your target market. What type of business idea are you looking to validate?"
+**Anna**: "Validating your business idea is a crucial step to ensure there's a real market need for your product or service. Here are some key steps you can follow:
+1. Identify Your Assumptions: List all the core assumptions about your idea, target customers, problem, and solution. This will guide your validation efforts.
+2. Customer Interviews: Talk to potential customers to understand their problems, needs, and willingness to pay for a solution. Focus on open-ended questions to get in-depth insights.
+3. Surveys & Questionnaires: Use these to gather quantitative data from a larger audience. This can validate insights you gained from interviews.
+4. Landing Page Test: Create a simple landing page describing your product/service and measure interest through sign-ups or pre-orders.
+5. Minimum Viable Product (MVP): Build a basic version of your product with core features to test with early adopters and gather feedback.
+6. Competitor Analysis: Research existing solutions to understand their strengths and weaknesses.
+7. Analyze Data & Iterate: Continuously collect and analyze data, and be prepared to pivot or refine your idea based on the findings.
+
+I'm asking this because it's important to understand: What assumptions are you making about your business idea that you need to validate?"
 
 ## Architecture
 
