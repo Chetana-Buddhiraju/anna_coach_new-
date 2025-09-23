@@ -16,7 +16,7 @@ CORS(app)
 client = openai.OpenAI()
 
 # Load knowledge base
-with open("/home/ubuntu/knowledge_base.md", "r", encoding="utf-8") as f:
+with open("knowledge_base.md", "r", encoding="utf-8") as f:
     knowledge_base = f.read()
 
 # The chat history will be a list of tuples (user_message, ai_message)
@@ -42,7 +42,7 @@ def log_interaction(user_message, ai_message):
     log_entry = f"[{timestamp}] User: {user_message}\\nAnna: {ai_message}\\nReasoning: {reasoning}\\n{\'=\'*50}\\n"
     
     # Write to log file
-    with open("/home/ubuntu/anna_coach/interaction_log.txt", "a", encoding="utf-8") as f:
+    with open("anna_coach/interaction_log.txt", "a", encoding="utf-8") as f:
         f.write(log_entry)
     
     # Also log to console
@@ -88,7 +88,7 @@ Please respond as Anna, the AI entrepreneurship coach. If the user\'s question r
 
     try:
         response = client.chat.completions.create(
-            model="gemini-2.5-flash", # Changed model to a supported one
+            model="gpt-4", 
             messages=messages,
             temperature=0.7,
             max_tokens=500
